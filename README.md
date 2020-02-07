@@ -1,5 +1,6 @@
 # aidrone_release
 
+
 ## Prerequisition
 1. [Install ros-kinetic](http://wiki.ros.org/kinetic/Installation) if you haven't. (Newer version should be compatible.)
 2. Install required ROS packages
@@ -24,19 +25,25 @@
 		* Other bugs that might occasionally happen and how to solve it is listed in the [Trouble Shooting](https://github.com/showaykerker/aidrone_release#trouble-shooting) part below.
 2. Try if this command works. `$ roslaunch rotors_gazebo mav_hovering_example.launch mav_name:=firefly world_name:=basic`
 	* If not, find it in trouble shooting or sent a pull request with solution in Trouble Shooting.
-2. Fork this repositary or just clone this repositary into `[catkin_ws]/src/`.
-3. Run `$ catkin build` in `[catkin_ws]/`.
-4. ```$ chmod +x [Every node files under aidron_release/]```.
-5. Changed interpreter path in the first line of every nodes.
+3. Fork this repositary or just clone this repositary into `[catkin_ws]/src/`.
+4. Run `$ catkin build` in `[catkin_ws]/`.
+5. ```$ chmod +x [Every node files under aidron_release/]```.
+6. Changed interpreter path in the first line of every nodes.
+
+
+## Usage
+* $ `roslaunch aidrone_release empty_world.launch`
+* $ `rosrun aidrone_release basic_usage`
 
 
 ## Trouble Shooting
-### Installation Problem
+### Installation Problems
 
 1. `ImportError: No module named defusedxml.xmlrpc`
 	* `$ pip install defusedxml`
 	* [reference](https://answers.ros.org/question/260377/no-module-named-defusedxmlxmlrpc/)
-### Other Trouble
+
+### Other Troubles
 
 1. Remove `ros-cv2` package
 	* `sudo mv /opt/ros/kinetic/lib/python2.7/dist-packages/cv2.so /opt/ros/kinetic/lib/python2.7/dist-packages/cv2_bkp.so`

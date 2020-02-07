@@ -1,0 +1,47 @@
+#!/home/showay/anaconda3/envs/showay/bin/python3
+
+"""
+
+Author: Hsu Hsiu Wei, NCRL, NCTU, Taiwan
+
+This node demonstrates basic usage of quadcopter control using rotorS plugin with Gazebo through ROS.
+
+"""
+
+import numpy as np
+import rospy
+from geometry_msgs.msg import PoseStamped, Point
+from gazebo_msgs.srv import SetModelState
+from src import utils as ut
+
+def main():
+	rospy.init_node('aidrone_release_basic_usage')
+	rospy.loginfo('aidrone_release/basic_usage node starts.')
+	service_proxy = rospy.ServiceProxy('/gazebo/set_model_state', SetModelState)
+	pose_publisher = rospy.Publisher('/iris/command/pose', PoseStamped, queue_size=1)
+	rate = rospy.Rate(4)
+	try:
+		for i in range(3):
+			ut.move('iris', np.array([0, 0, 1]))
+			current_position = PoseStamped()
+			current_position.pose.position = Point(0, 0, 1)
+			for j in range(20):
+				next_position = (np.random.rand(3) - np.array([0.2, 0.5, 0]) )
+				current_position.pose.position.x += next_position[0]
+				current_position.pose.position.y += next_position[1]
+				current_position.pose.position.z = 1 + next_position[2] * 2
+				pose_publisher.publish(current_position)
+				rate.sleep()
+
+	except Exception as e:
+		rospy.logwarn(e)
+
+	finally:
+		current_position.pose.position = Point(0, 0, 1)
+		ut.move('iris', np.array([0, 0, 1]))
+		pose_publisher.publish(current_position)
+		rospy.loginfo('aidrone_release/basic_usage node ends.')
+
+
+if __name__ == '__main__':
+	main()
